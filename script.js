@@ -32,6 +32,12 @@ async function fetchUserRepo(repoInput)
             resetfirst();
             return;
         }
+        
+        document.getElementById('repos').innerHTML = '';
+        let loader = document.createElement('div');
+        loader.className = "loader";
+        document.getElementById('repos').appendChild(loader);
+        
         const call = await fetch(`https://api.github.com/users/${user}/repos`);
         const data = await call.json();
         if(data.length === 0)
