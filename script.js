@@ -38,28 +38,41 @@ async function fetchUserRepo(repoInput)
         loader.className = "loader";
         document.getElementById('repos').appendChild(loader);
         
-        const call = await fetch(`https://api.github.com/users/${user}/repos`);
-        const data = await call.json();
-        if(data.length === 0)
+        const response = await fetch(`https://api.github.com/users/${user}/repos`);
+        if(response.status === 200)
+        {
+            const data = await response.json();
+            if(data.length === 0)
+            {
+                document.getElementById('repos').innerHTML = '';
+                let new_row = document.createElement('div');
+                new_row.className = "repoDiv";
+                let a = document.createElement("A");
+                let t = document.createTextNode('No Repository Found for given user');
+                a.appendChild(t);
+                new_row.appendChild(a);
+                document.getElementById('repos').appendChild(new_row);
+                return;
+            }
+            document.getElementById('repos').innerHTML = '';
+            for(let i=0; i< data.length; i++)
+            {
+                let new_row = document.createElement('div');
+                new_row.className = "repoDiv";
+                let a = document.createElement("A");
+                let t = document.createTextNode(data[i].name);
+                a.setAttribute("href", data[i].html_url);
+                a.appendChild(t);
+                new_row.appendChild(a);
+                document.getElementById('repos').appendChild(new_row);
+            }
+        }else
         {
             document.getElementById('repos').innerHTML = '';
             let new_row = document.createElement('div');
             new_row.className = "repoDiv";
             let a = document.createElement("A");
             let t = document.createTextNode('No Repository Found for given user');
-            a.appendChild(t);
-            new_row.appendChild(a);
-            document.getElementById('repos').appendChild(new_row);
-            return;
-        }
-        document.getElementById('repos').innerHTML = '';
-        for(let i=0; i< data.length; i++)
-        {
-            let new_row = document.createElement('div');
-            new_row.className = "repoDiv";
-            let a = document.createElement("A");
-            let t = document.createTextNode(data[i].name);
-            a.setAttribute("href", data[i].html_url);
             a.appendChild(t);
             new_row.appendChild(a);
             document.getElementById('repos').appendChild(new_row);
