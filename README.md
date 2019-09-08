@@ -2,7 +2,7 @@
 
 An easy to search user's repository on GitHub app using Vanilla JavaScript
 
-## Deployed -
+## Deployed - https://manvendramaan.github.io/github-repo-search/
 
 # To run the project:
 
